@@ -1,7 +1,20 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <unordered_map>
 using namespace std;
+
+//hash表线性时间解决
+vector<int> twoSum_2(vector<int> &nums, int target){
+    unordered_map<int,int> map;
+    for(int i = 0; i < nums.size();++i){
+        if(map.count(target-nums[i])){
+            return {map[target-nums[i]],i};
+        }
+        map[nums[i]] = i;
+    }
+    return {};
+}
 
 vector<int> twoSum(vector<int> &nums, int target)
 {
