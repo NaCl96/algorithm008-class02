@@ -2,7 +2,10 @@
     "files.associations": {
         "iostream": "cpp",
         "new": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "*.tcc": "cpp",
+        "unordered_map": "cpp",
+        "string_view": "cpp"
     },
     "C_Cpp.clang_format_fallbackStyle": "Google",
 }
