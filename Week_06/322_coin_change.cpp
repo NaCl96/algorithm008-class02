@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-05-31 14:08:35
- * @LastEditTime: 2020-05-31 14:45:08
+ * @LastEditTime: 2020-06-09 14:24:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \algorithm008-class02\Week_06\322_coin_change.cpp
@@ -10,41 +10,6 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-
-//递归 + 记忆化搜索
-int findway(vector<int>& coins, int amount, vector<int>& memo) {
-  if (amount < 0) {
-    return -1;
-  }
-  if (amount == 0) {
-    return 0;
-  }
-  if(memo[amount-1] != 0){
-      return memo[amount-1];
-  }
-  int min = INT_MAX;
-  for (int i = 0; i < coins.size(); ++i) {
-    int cur = findway(coins, amount - coins[i], memo);
-    if(cur > 0 && cur < min){
-        min = res + 1;
-    }
-  }
-  memo[amount-1] = (min == INT_MAX ? -1 : min);
-  return memo[amount-1];
-}
-
-int coinChange_recur(vector<int>& coins, int amount) {
-  if (coins.size() == 0) {
-    return -1;
-  }
-//   int res = INT_MAX;
-  vector<int> memo(amount,-1);
-  findway(coins, amount, 0, memo);
-  if (res == INT_MAX) {
-    return -1;
-  }
-  return res;
-}
 
 //动态规划解法
 // dp[i] 表示有金额i最少的硬币数
@@ -63,8 +28,24 @@ int coinChange(vector<int>& coins, int amount) {
   return (dp[amount] == amount + 1) ? -1 : amount + 1;
 }
 
+int coinChange_2(vector<int>& coins,int amount){
+  if(coins.size() == 0) return -1;
+  vector<int> dp(amount+1,0);
+  for(int i = 1; i <= amount;++i){
+    int min = INT_MAX;
+    for(int j = 0; j < coins.size(); ++j){
+      if(i - coins[j] >= 0 && dp[i-coins[j]] < min){
+        min = dp[i-coins[j]] + 1;
+      }
+    }
+    dp[i] = min;
+  }
+  return dp[amount] == INT_MAX ? -1 : dp[amount];
+}
+
 int main() {
   vector<int> coins = {1, 2, 5};
-  int res = coinChange(coins, 11);
+  int res = coinChange_2(coins, 11);
+  cout<<res<<endl;
   return 0;
 }
